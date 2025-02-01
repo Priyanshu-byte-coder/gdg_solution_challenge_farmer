@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="dashboard">
+    <h2>Welcome, {{ user }}!</h2>
+    <p>This is your dashboard. You can access the chatbot and other features from here.</p>
+    
+    <div class="flashcard-container">
+        <!-- Flashcard for Chatbot -->
+        <div class="flashcard">
+            <div class="flashcard-inner">
+                <div class="flashcard-front">
+                    <h3>Chatbot</h3>
+                </div>
+                <div class="flashcard-back">
+                    <p>Interact with our AI-powered chatbot to get instant assistance and answers to your questions.</p>
+                    <a href="{{ url_for('chatbot') }}" class="btn">Go to Chatbot</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Add more flashcards here -->
+        <!-- Example Flashcard 2 -->
+        <div class="flashcard">
+            <div class="flashcard-inner">
+                <div class="flashcard-front">
+                    <h3>Shemes</h3>
+                </div>
+                <div class="flashcard-back">
+                    <p>Description for Feature 2. This could be another tool or service available on your platform.</p>
+                    <a href="#" class="btn">Learn More</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Example Flashcard 3 -->
+        <div class="flashcard">
+            <div class="flashcard-inner">
+                <div class="flashcard-front">
+                    <h3>Weather Forecast</h3>
+                </div>
+                <div class="flashcard-back">
+                    <p>Get real-time weather forecasts and personalized advice for your location.</p>
+                    <a href="{{ url_for('weather') }}" class="btn">Check Weather</a>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Add more flashcards as needed -->
+    </div>
+</section>
+{% endblock %}

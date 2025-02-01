@@ -1,0 +1,65 @@
+
+        {% extends "base.html" %}
+
+{% block content %}
+    <section class="chatbot">
+        <h2>Chatbot</h2>
+        <div id="chatbox">
+            <div id="chat-log"></div>
+            <div id="loading">Ram is thinking...</div>
+        </div>
+        <div id="input-area">
+            <input type="text" id="user-input" placeholder="Ask Ram anything...">
+            <button onclick="sendMessage()">Send</button>
+        </div>
+    </section>
+    <script>
+        async function sendMessage() {
+            const inputField = document.getElementById("user-input");
+            const chatLog = document.getElementById("chat-log");
+            const loadingIndicator = document.getElementById("loading");
+            const userMessage = inputField.value.trim();
+
+            if (!userMessage) return;
+
+            // Display user message
+            chatLog.innerHTML += `<div class="message user">${userMessage}</div>`;
+            inputField.value = "";
+
+            // Show loading indicator
+            loadingIndicator.style.display = "block";
+
+            // Send to backend
+            const response = await fetch("/chat", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ message: userMessage }),
+            });
+            const data = await response.json();
+
+            // Hide loading indicator
+            loadingIndicator.style.display = "none";
+
+            // Format bot response text
+            const formattedResponse = formatText(data.response);
+
+            // Display bot response
+            chatLog.innerHTML += `<div class="message bot">${formattedResponse}</div>`;
+        }
+
+        // Function to format the response text
+        function formatText(text) {
+            // Convert headings
+            text = text.replace(/\*\*(.*?)\*\*/g, '<h1>$1</h1>');
+            // Convert italics
+            text = text.replace(/\*(.*?)\*/g, '<i>$1</i>');
+            // Convert bullet points
+            text = text.replace(/\* (.*?)\*/g, '<li>$1</li>');
+            // Convert paragraphs
+            text = text.replace(/(\w+)([.!?]) (\w+)/g, '$1$2</p><p>$3');
+            return text
+                .replace(/<li>(.*?)<\/li>/g, '<ul>$&</ul>')
+                .replace(/<\/ul>(\s*<ul>)+/g, '');
+        }
+    </script>
+{% endblock %}

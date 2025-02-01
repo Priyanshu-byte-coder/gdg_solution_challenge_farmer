@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="weather">
+    <h2>Weather Forecast</h2>
+    <p>Enter your city or area to get the latest weather updates and personalized advice.</p>
+    
+    <form method="POST" class="weather-form">
+        <label for="city">City/Area:</label>
+        <input type="text" id="city" name="city" placeholder="Enter your city" required>
+        <button type="submit" class="btn">Get Weather</button>
+    </form>
+
+    {% if error %}
+    <div class="error">
+        <p>{{ error }}</p>
+    </div>
+    {% endif %}
+
+    {% if weather_data %}
+    <div class="weather-results">
+        <h3>Weather in {{ city }}</h3>
+        <p><strong>Temperature:</strong> {{ weather_data.temperature }}°C</p>
+        <p><strong>Condition:</strong> {{ weather_data.description }}</p>
+        <p><strong>Humidity:</strong> {{ weather_data.humidity }}%</p>
+        <p><strong>Wind Speed:</strong> {{ weather_data.wind_speed }} m/s</p>
+        
+        <!-- Personalized Advice -->
+        <div class="advice">
+            <h4>Personalized Advice</h4>
+            {% if weather_data.temperature < 10 %}
+            <p>It's cold outside! Make sure to wear warm clothing.</p>
+            {% elif weather_data.temperature > 30 %}
+            <p>It's hot outside! Stay hydrated and avoid prolonged sun exposure.</p>
+            {% else %}
+            <p>The weather is pleasant. Enjoy your day!</p>
+            {% endif %}
+        </div>
+    </div>
+    {% endif %}
+</section>
+{% endblock %}
